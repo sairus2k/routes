@@ -1,3 +1,41 @@
-body {
-  background-color: lightgrey;
+* {
+  box-sizing: border-box;
 }
+
+body {
+  margin: 0;
+  background-color: #ccc;
+}
+
+.container {
+  width: 720px;
+  max-width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin: 0 auto;
+  background-color: #fff;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col {
+  flex: 0 0 100%;
+  max-width: 100%;
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+@media (min-width: 576px) {
+  .col {
+    flex: 0 0 50%;
+    max-width: 50%;
+    width: 50%;
+  }
+}
+
