@@ -24,6 +24,7 @@ const YandexLoader = class {
   ready() {
     const deferred = this._q.defer();
     this._window.ymapsReady = ymaps => deferred.resolve(ymaps);
+    this._window.ymapsError = error => deferred.reject(error);
     const script = this._document.createElement('script');
     script.src = getUrl(this._config);
     this._document.body.appendChild(script);

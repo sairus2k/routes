@@ -3,7 +3,8 @@ export default {
   params: {
     load: ['package.full'],
     lang: 'ru_RU',
-    onLoad: 'ymapsReady'
+    onLoad: 'ymapsReady',
+    onError: 'ymapsError'
   },
   mapBehaviors: ['default']
 };
