@@ -13,6 +13,7 @@ const Geolocation = class {
   }
 
   static createInstance($q) {
+    'ngInject';
     return new Geolocation($q);
   }
 };

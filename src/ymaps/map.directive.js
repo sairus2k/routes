@@ -6,7 +6,9 @@ const YandexMap = class {
     this.restrict = 'E';
     this.scope = {
       center: '=',
-      zoom: '='
+      zoom: '=',
+      markers: '=',
+      controls: '='
     };
     this._log = $log.log;
     this._ymapsLoader = ymapsLoader;
@@ -14,15 +16,29 @@ const YandexMap = class {
   }
 
   link(scope, element) {
+    const updateCollection = () => {
+      const line = [];
+      this.collection.removeAll();
+      scope.markers.forEach(item => {
+        this.collection.add(new this._ymaps.Placemark(item.coords));
+        line.push(item.coords);
+      });
+      this.collection.add(new this._ymaps.Polyline(line));
+    };
+
     this._ymapsLoader.ready()
       .then(ymaps => {
         this._log('Yandex Map initialized');
         this._log('Instance of Yandex API: ', ymaps);
-        this.map = new ymaps.Map(element[0], {
+        this._ymaps = ymaps;
+        this.map = new this._ymaps.Map(element[0], {
           center: scope.center || [0, 0],
           zoom: scope.zoom || 0,
           behaviors: ['default']
         });
+        this.collection = new this._ymaps.GeoObjectCollection();
+        updateCollection();
+        this.map.geoObjects.add(this.collection);
         this._log('Map object: ', this.map);
       })
       .catch(error => {
@@ -44,12 +60,27 @@ const YandexMap = class {
     scope.$watch('center', newVal => {
       this._log('Position changed to ', newVal);
       if (angular.isDefined(this.map)) {
-        this.map.panTo(newVal);
+        this.map.setCenter(newVal);
       }
     });
+
+    scope.$watch('markers', () => {
+      this._log('Markers object was changed.');
+      if (angular.isDefined(this._ymaps)) {
+        updateCollection();
+      }
+    }, true);
+
+    scope.controls.getPosition = () => {
+      if (angular.isUndefined(this.map)) {
+        return [0, 0];
+      }
+      return this.map.getCenter();
+    };
   }
 
   static createInstance($log, ymapsLoader, ymapsLocation) {
+    'ngInject';
     YandexMap.instance = new YandexMap($log, ymapsLoader, ymapsLocation);
     return YandexMap.instance;
   }

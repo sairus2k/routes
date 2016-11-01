@@ -32,6 +32,7 @@ const YandexLoader = class {
   }
 
   static createInstance($q, $window, $document, $log, ymapsConfig) {
+    'ngInject';
     return new YandexLoader($q, $window, $document, $log, ymapsConfig);
   }
 };
