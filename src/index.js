@@ -1,7 +1,8 @@
 import angular from 'angular';
 import ymaps from './ymaps';
 
-import {hello} from './app/hello';
+import appComponent from './app/app.component';
+import PointsService from './app/points.service';
 
 import './index.scss';
 
@@ -11,4 +12,5 @@ angular
   .module(app, [
     ymaps
   ])
-  .component('app', hello);
+  .factory('pointsService', PointsService.createInstance)
+  .component('app', appComponent);

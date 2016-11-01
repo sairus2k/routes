@@ -1,6 +1,6 @@
 import angular from 'angular';
 import 'angular-mocks';
-import {hello} from './hello';
+import {hello} from './app.component';
 
 describe('hello component', () => {
   beforeEach(() => {
