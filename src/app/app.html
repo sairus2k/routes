@@ -4,7 +4,7 @@
       <form ng-submit="$ctrl.addPoint()">
         <input type="text" placeholder="Новая точка маршрута" ng-model="$ctrl.pointName">
       </form>
-      <ul>
+      <ul ui-sortable ng-model="$ctrl.points">
         <li ng-repeat="point in $ctrl.points">{{ point.name }}
           <button ng-click="$ctrl.removePoint($index)">X</button>
         </li>

@@ -51,6 +51,11 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new HtmlWebpackPlugin({
       template: conf.path.src('index.html')
+    }),
+    new webpack.ProvidePlugin({
+      '&': 'jquery',
+      'jquery': 'jquery',
+      'window.jQuery': 'jquery'
     })
   ],
   postcss: () => [autoprefixer],
