@@ -9,7 +9,7 @@ Demo app with Angular and Yandex Maps api.
 
 ## How to
 
-* `npm run serve` live server with watcher
+* `npm run serve` live server with watcher. [http://localhost:3000](http://localhost:3000)
 
 * `npm run build` build minified version
 
