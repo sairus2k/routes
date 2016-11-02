@@ -1,19 +1,6 @@
 const PointsService = class {
   constructor() {
-    this._points = [
-      {
-        name: 'Точка марштура 1',
-        coords: [55.7121503572884, 37.5506818671875]
-      },
-      {
-        name: 'Точка марштура 2',
-        coords: [55.72316883469081, 37.54727840423583]
-      },
-      {
-        name: 'Точка марштура 3',
-        coords: [55.72316883469081, 37.5506818671875]
-      }
-    ];
+    this._points = [];
   }
 
   getPoints() {
@@ -30,6 +17,11 @@ const PointsService = class {
       coords,
       address
     });
+  }
+
+  updatePoint(index, coords, address) {
+    this._points[index].coords = coords;
+    this._points[index].address = address;
   }
 
   static createInstance() {

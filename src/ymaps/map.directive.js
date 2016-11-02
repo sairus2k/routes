@@ -8,7 +8,8 @@ const YandexMap = class {
       center: '=',
       zoom: '=',
       markers: '=',
-      controls: '='
+      controls: '=',
+      event: '='
     };
     this._q = $q;
     this._log = $log.log;
@@ -20,11 +21,17 @@ const YandexMap = class {
     const updateCollection = () => {
       const line = [];
       this.collection.removeAll();
-      scope.markers.forEach(item => {
-        this.collection.add(new this._ymaps.Placemark(item.coords, {
+      scope.markers.forEach((item, index) => {
+        const mark = new this._ymaps.Placemark(item.coords, {
           balloonContentHeader: item.name,
           balloonContentBody: item.address
-        }));
+        }, {
+          draggable: true
+        });
+        mark.events.add(scope.event.name, () => {
+          scope.event.callback(mark.geometry.getCoordinates(), index);
+        });
+        this.collection.add(mark);
         line.push(item.coords);
       });
       this.collection.add(new this._ymaps.Polyline(line));

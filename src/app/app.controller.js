@@ -3,6 +3,14 @@ export default class {
     this._log = $log.log;
     this._service = pointsService;
     this.controls = {};
+    this.event = {
+      name: 'dragend',
+      callback: (coords, index) => {
+        this.controls.geocode(coords).then(address => {
+          this._service.updatePoint(index, coords, address);
+        });
+      }
+    };
   }
 
   $onInit() {
