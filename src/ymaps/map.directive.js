@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 const YandexMap = class {
-  constructor($log, ymapsLoader, ymapsLocation) {
+  constructor($q, $log, ymapsLoader, ymapsLocation) {
     'ngInject';
     this.restrict = 'E';
     this.scope = {
@@ -10,6 +10,7 @@ const YandexMap = class {
       markers: '=',
       controls: '='
     };
+    this._q = $q;
     this._log = $log.log;
     this._ymapsLoader = ymapsLoader;
     this._ymapsLocation = ymapsLocation;
@@ -20,7 +21,10 @@ const YandexMap = class {
       const line = [];
       this.collection.removeAll();
       scope.markers.forEach(item => {
-        this.collection.add(new this._ymaps.Placemark(item.coords));
+        this.collection.add(new this._ymaps.Placemark(item.coords, {
+          balloonContentHeader: item.name,
+          balloonContentBody: item.address
+        }));
         line.push(item.coords);
       });
       this.collection.add(new this._ymaps.Polyline(line));
@@ -77,11 +81,21 @@ const YandexMap = class {
       }
       return this.map.getCenter();
     };
+
+    scope.controls.geocode = coords => {
+      if (angular.isDefined(this._ymaps)) {
+        const deferred = this._q.defer();
+        this._ymaps.geocode(coords).then(result => {
+          return deferred.resolve(result.geoObjects.get(0).properties.get('name'));
+        });
+        return deferred.promise;
+      }
+    };
   }
 
-  static createInstance($log, ymapsLoader, ymapsLocation) {
+  static createInstance($q, $log, ymapsLoader, ymapsLocation) {
     'ngInject';
-    YandexMap.instance = new YandexMap($log, ymapsLoader, ymapsLocation);
+    YandexMap.instance = new YandexMap($q, $log, ymapsLoader, ymapsLocation);
     return YandexMap.instance;
   }
 };

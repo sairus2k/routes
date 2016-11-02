@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <form ng-submit="$ctrl.addPoint()">
+      <form ng-submit="$ctrl.addPoint($ctrl.pointName)">
         <input type="text" placeholder="Новая точка маршрута" ng-model="$ctrl.pointName">
       </form>
       <ul ui-sortable ng-model="$ctrl.points">

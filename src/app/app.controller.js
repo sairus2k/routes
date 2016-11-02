@@ -10,8 +10,11 @@ export default class {
     this.pointName = '';
   }
 
-  addPoint() {
-    this._service.addPoint(this.pointName, this.controls.getPosition());
+  addPoint(name) {
+    const coords = this.controls.getPosition();
+    this.controls.geocode(coords).then(address => {
+      this._service.addPoint(name, coords, address);
+    });
     this.pointName = '';
   }
 

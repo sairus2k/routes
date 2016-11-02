@@ -3,24 +3,15 @@ const PointsService = class {
     this._points = [
       {
         name: 'Точка марштура 1',
-        coords: [
-          47.916,
-          -253.083
-        ]
+        coords: [55.7121503572884, 37.5506818671875]
       },
       {
         name: 'Точка марштура 2',
-        coords: [
-          47.914,
-          -253.080
-        ]
+        coords: [55.72316883469081, 37.54727840423583]
       },
       {
         name: 'Точка марштура 3',
-        coords: [
-          47.915,
-          -253.084
-        ]
+        coords: [55.72316883469081, 37.5506818671875]
       }
     ];
   }
@@ -33,10 +24,11 @@ const PointsService = class {
     this._points.splice(index, 1);
   }
 
-  addPoint(name, coords) {
+  addPoint(name, coords, address) {
     this._points.push({
       name,
-      coords
+      coords,
+      address
     });
   }
 
